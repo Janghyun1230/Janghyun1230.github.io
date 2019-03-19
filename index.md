@@ -2,5 +2,5 @@
 
 How is your day today?
 
-![monet](monet.jpg)
+<img src="monet.jpg" alt="monet" width="500"/>
 
