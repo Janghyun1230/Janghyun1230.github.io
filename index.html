@@ -80,18 +80,27 @@
           <table
             style="width:100%;border:0px;border-spacing:0px;border-collapse:collapse;margin-right:auto;margin-left:auto;">
             <tbody>
-              <tr>
+              <tr onmouseout="idc_stop()" onmouseover="idc_start()">
                 <td style="padding:0px;width:25%;vertical-align:middle">
                   <div class="one">
-                    <div class="two" id='idc'>
+                    <div class="two" id='idc_image'>
                       <center>
-                        <img src='images/idc22.jpg' width="160" style="border-style: none">
+                        <img src='images/comix21.png' width="160" style="border-style: none">
                       </center>
                     </div>
                     <center>
-                      <img src='images/comix21.png' width="160" style="border-style: none">
+                      <img src='images/idc22.png' width="160" style="border-style: none">
                     </center>
                   </div>
+                  <script type="text/javascript">
+                    function idc_start() {
+                      document.getElementById('idc_image').style.opacity = "1";
+                    }
+                    function idc_stop() {
+                      document.getElementById('idc_image').style.opacity = "0";
+                    }
+                    dualrefl_stop()
+                  </script>
                 </td>
                 <td style="padding:20px;width:75%;vertical-align:middle">
                   <papertitle>Dataset Condensation via Efficient Synthetic-Data Parameterization</papertitle>
@@ -215,8 +224,7 @@
                 <td style="padding:20px;width:75%;vertical-align:middle">
                   <papertitle>Multi-Domain Processing via Hybrid Denoising Networks for Speech Enhancement</papertitle>
                   <br>
-                  <strong>Jang-Hyun Kim*</strong>, Jaejun Yoo*, Sanghyuk Chun, Adrian Kim, Jung-Woo Ha (*: equal
-                  contribution)
+                  <strong>Jang-Hyun Kim*</strong>, Jaejun Yoo*, Sanghyuk Chun, Adrian Kim, Jung-Woo Ha
                   <br>
                   <em>arxiv</em>, 2018
                   <br>
