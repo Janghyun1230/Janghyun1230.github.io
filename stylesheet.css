@@ -92,14 +92,14 @@ a {
   font-size: 14px
 }
 
-p {
-  font-family: sans-serif;
-  font-size: 15px
-}
-
 strong {
   font-family: sans-serif;
   font-size: 14px;
+}
+
+p {
+  font-family: sans-serif;
+  font-size: 15px
 }
 
 papertitle {
@@ -115,7 +115,7 @@ name {
 
 heading {
   font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
-  font-size: 22px;
+  font-size: 24px;
 }
 
 /* image overlapping */
