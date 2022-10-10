@@ -139,3 +139,7 @@ heading {
 span.highlight {
   background-color: #ffffd0;
 }
+
+li {
+  margin-top: 6px;
+}
