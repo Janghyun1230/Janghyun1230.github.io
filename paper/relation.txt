@@ -1,0 +1,6 @@
+@article{kim2023relation,
+  title={Neural Relation Graph: A Unified Framework for Identifying Label Noise and Outlier Data},
+  author={Kim, Jang-Hyun and Yun, Sangdoo and Song, Hyun Oh},
+  journal={arXiv preprint arXiv:2301.12321},
+  year={2023}
+}
