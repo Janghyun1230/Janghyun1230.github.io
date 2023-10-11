@@ -2,5 +2,5 @@
   title={Neural Relation Graph: A Unified Framework for Identifying Label Noise and Outlier Data},
   author={Kim, Jang-Hyun and Yun, Sangdoo and Song, Hyun Oh},
   booktitle={Neural Information Processing Systems},
-  year={2023}
+  year={2023} 
 }
