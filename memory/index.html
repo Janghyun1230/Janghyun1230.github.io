@@ -31,7 +31,6 @@
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" type="image/png" href="images/icon.png">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -79,7 +78,7 @@
                   </a>
                 </span>
                 <span class="link-block">
-                  <a href="https://arxiv.org/abs/2011.12948" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://arxiv.org/abs/2312.03414" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="ai ai-arxiv"></i>
                     </span>
@@ -93,7 +92,7 @@
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>Code</span>
+                    <span>Code&Demo</span>
                   </a>
                 </span>
               </div>
@@ -123,22 +122,17 @@
       <!-- Abstract. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
+          <h2 class="title is-3">Summary</h2>
           <div class="content has-text-justified">
             <p>
-              This paper presents a novel context compression method for Transformer language models in online scenarios
-              such as ChatGPT, where the context continually expands.
-              As the context lengthens, the attention process requires more memory and computational resources, which in
-              turn reduces the throughput of the language model.
-              To this end, we propose a compressed context memory system that continually compresses the growing context
-              into a compact memory space.
-              The compression process simply involves integrating a lightweight conditional LoRA into the language
-              model's forward pass during inference.
-              Based on the compressed context memory, the language model can perform inference with reduced memory and
-              attention operations.
-              Through evaluations on conversation, personalization, and multi-task learning, we demonstrate that our
-              approach achieves the performance level of a full context model with 5x smaller context memory
-              space.
+              <li> Our approach <b> dynamically creates compressed memory </b> of contexts during LLM interactions.
+              </li>
+              <li> Our approach only requires training a <b> conditional LoRA for compression </b> . </li>
+              <li> We use a <b> fully parallelized training </b> strategy for recurrent compression procedures.</li>
+              <li> We conduct evaluations on diverse applications: conversation, multi-task ICL, and personalization,
+                &nbsp; &nbsp; &nbsp; achieving the performance level of a full context model with <b> 5x smaller </b>
+                context
+                memory space. </li>
             </p>
           </div>
         </div>
@@ -151,16 +145,19 @@
           <h2 class="title is-3">Results</h2>
           <div class="publication-image">
             <img src="./static/images/result.png">
+            Figure. Comparison of our approach and the full context model with LLaMA-7B on multi-task ICL.
           </div>
           <br>
           <br>
           <div class="publication-image">
             <img src="./static/images/example.png">
+            Table. An example sample of our approach with LLaMA-7B in DailyDialog.
           </div>
           <br>
           <br>
           <div class="publication-image">
             <img src="./static/images/throughput.png">
+            Table. Throughput comparison of our approach and the full context model with LLaMA-7B.
           </div>
         </div>
       </div>
@@ -175,41 +172,35 @@
       <div class="columns is-centered">
         <div class="column is-four-fifths">
           <div class="content">
-            <h2 class="title is-3">Related Links</h2>
+            <h2 class="title is-3">Related Works</h2>
 
             <div class="content has-text-justified">
               <p>
-                There's a lot of excellent work that was introduced around the same time as ours.
-              </p>
-              <p>
-                <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces
-                an
-                idea similar to our windowed position encoding for coarse-to-fine optimization.
-              </p>
-              <p>
-                <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a
-                  href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-                both use deformation fields to model non-rigid scenes.
-              </p>
-              <p>
-                Some works model videos with a NeRF by directly modulating the density, such as <a
-                  href="https://video-nerf.github.io/">Video-NeRF</a>, <a
-                  href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a
-                  href="https://neural-3d-video.github.io/">DyNeRF</a>
-              </p>
-              <p>
-                There are probably many more by the time you are reading this. Check out <a
-                  href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a
-                  href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+                <li> Jack W Rae, Anna Potapenko, Siddhant M Jayakumar, and Timothy P Lillicrap. <a
+                    href="https://arxiv.org/abs/1911.05507"> Compressive
+                    transformers for long-range sequence modelling</a>. ICLR, 2020.</li>
+                <li> Aydar Bulatov, Yury Kuratov, and Mikhail Burtsev. <a href="https://arxiv.org/abs/2207.06881">
+                    Recurrent memory transformer</a>. NeurIPS, 2022.
+                </li>
+                <li> Jesse Mu, Xiang Lisa Li, and Noah Goodman. <a href="https://arxiv.org/abs/2304.08467"> Learning to
+                    compress prompts with gist tokens</a>. NeurIPS,
+                  2023.</li>
+                <li> Alexis Chevalier, Alexander Wettig, Anirudh Ajith, and Danqi Chen. <a
+                    href="https://arxiv.org/abs/2305.14788">Adapting language models to
+                    compress contexts</a>. EMNLP, 2023. </li>
+                <li> Tao Ge, Jing Hu, Xun Wang, Si-Qing Chen, and Furu Wei. <a
+                    href="https://arxiv.org/abs/2307.06945">In-context autoencoder for context
+                    compression in a large language model</a>. arXiv preprint arXiv:2307.06945, 2023. </li>
               </p>
             </div>
           </div>
           <h2 class="title">BibTeX</h2>
-          <pre><code>@article{kim23memory,
-    author = {Kim, Jang-Hyun and Yeom, Junyoung and Yun, Sangdoo and Song, Hyun Oh},
-    title = {Compressed Context Memory for Online Language Model Interaction},
-    journal = {arxiv},
-    year = {2023}}</code></pre>
+          <pre><code>@article{kim2023compressed, 
+    title={Compressed Context Memory For Online Language Model Interaction}, 
+    author={Kim, Jang-Hyun and Yeom, Junyoung and Yun, Sangdoo and Song, Hyun Oh},
+    journal={arXiv preprint arXiv:2312.03414},
+    year={2023},
+  }</code></pre>
         </div>
       </div>
     </div>
