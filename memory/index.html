@@ -71,7 +71,7 @@
               <div class="publication-links">
                 <!-- PDF Link. -->
                 <span class="link-block">
-                  <a href="https://arxiv.org/pdf/2011.12948" class="external-link button is-normal is-rounded is-dark">
+                  <a href="./static/ccm24.pdf" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
@@ -88,7 +88,8 @@
                 </span>
                 <!-- Code Link. -->
                 <span class="link-block">
-                  <a href="https://github.com/google/nerfies" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://github.com/snu-mllab/Context-Memory"
+                    class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
@@ -107,18 +108,15 @@
   <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <video id="teaser" autoplay muted loop playsinline height="100%">
-          <source src="./static/videos/teaser.mp4" type="video/mp4">
-        </video>
+        <img src="./static/images/main.png">
         <h2 class="subtitle has-text-centered">
-          <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-          free-viewpoint
-          portraits.
+          <span class="dnerf">Our approach compresses accumulating contexts into a compact memory space,<br /> reducing
+            memory
+            requirement during inference and enhancing computational efficiecy.</span>
         </h2>
       </div>
     </div>
   </section>
-
 
   <section class="section">
     <div class="container is-max-desktop">
@@ -138,22 +136,31 @@
               model's forward pass during inference.
               Based on the compressed context memory, the language model can perform inference with reduced memory and
               attention operations.
-              Through evaluations on multi-task learning, personalization, and conversation, we demonstrate that our
-              approach achieves the performance level of a full context model with $5\times$ smaller context memory
+              Through evaluations on conversation, personalization, and multi-task learning, we demonstrate that our
+              approach achieves the performance level of a full context model with 5x smaller context memory
               space.
             </p>
           </div>
         </div>
       </div>
       <!--/ Abstract. -->
-
+      <br>
       <!-- Paper video. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Video</h2>
-          <div class="publication-video">
-            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
-              allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <h2 class="title is-3">Results</h2>
+          <div class="publication-image">
+            <img src="./static/images/result.png">
+          </div>
+          <br>
+          <br>
+          <div class="publication-image">
+            <img src="./static/images/example.png">
+          </div>
+          <br>
+          <br> 
+          <div class="publication-image">
+            <img src="./static/images/throughput.png">
           </div>
         </div>
       </div>
@@ -163,34 +170,10 @@
 
 
   <section class="section">
-    <div class="container is-max-desktop">
-
-      <div class="columns is-centered">
-
-        <!-- Visual Effects. -->
-        <div class="column">
-          <div class="content">
-            <h2 class="title is-3">Visual Effects</h2>
-            <p>
-              Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-              would be impossible without nerfies since it would require going through a wall.
-            </p>
-            <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-              <source src="./static/videos/dollyzoom-stacked.mp4" type="video/mp4">
-            </video>
-          </div>
-        </div>
-        <!--/ Visual Effects. -->
-
-      </div>
-    </div>
-    <!--/ Animation. -->
-
-
     <!-- Concurrent Work. -->
     <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column">
+        <div class="column is-four-fifths">
           <div class="content">
             <h2 class="title is-3">Related Links</h2>
 
@@ -221,23 +204,16 @@
               </p>
             </div>
           </div>
+          <h2 class="title">BibTeX</h2>
+          <pre><code>@article{kim23memory,
+    author = {Kim, Jang-Hyun and Yeom, Junyoung and Yun, Sangdoo and Song, Hyun Oh},
+    title = {Compressed Context Memory for Online Language Model Interaction},
+    journal = {arxiv},
+    year = {2023}}</code></pre>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@article{kim23memory,
-  author    = {Kim, Jang-Hyun and Yeom, Junyoung and Yun, Sangdoo and Song, Hyun Oh},
-  title     = {Compressed Context Memory for Online Language Model Interaction},
-  journal   = {arxiv},
-  year      = {2023},
-}</code></pre>
-    </div>
-  </section>
-
 
   <footer class="footer">
     <div class="columns is-centered">
