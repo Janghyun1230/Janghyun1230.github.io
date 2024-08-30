@@ -1,0 +1,6 @@
+@article{kim2024targeted,
+    title={Targeted Cause Discovery with Data-Driven Learning},
+    author={Kim, Jang-Hyun and Gibbs, Claudia Skok and Yun, Sangdoo and Song, Hyun Oh and Cho, Kyunghyun},
+    journal={arXiv preprint arXiv:2408.16218},
+    year={2024}
+}
