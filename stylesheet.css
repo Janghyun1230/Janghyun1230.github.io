@@ -71,10 +71,14 @@
 }
 
 .custom-underline {
-  display: inline-block; /* Ensures border respects text width */
-  border-bottom: 1px solid black; /* Simulated underline */
-  padding-bottom: 0px; /* Brings underline close to the text */
-  line-height: 0.9; /* Adjust for tight spacing */
+  display: inline-block;
+  /* Ensures border respects text width */
+  border-bottom: 1px solid black;
+  /* Simulated underline */
+  padding-bottom: 0px;
+  /* Brings underline close to the text */
+  line-height: 13px;
+  /* Adjust for tight spacing */
 }
 
 /* href color */
