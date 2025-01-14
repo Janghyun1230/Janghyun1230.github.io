@@ -1,23 +1,25 @@
-.custom-underline {
-  display: inline-block;
-  border-bottom: 1px solid black;
-  padding-bottom: 0px;
-  line-height: 16px;
-}
-
-/* href color */
-a {
-  color: #6c4210;
-  text-decoration: none;
-}
-
-a:focus,
-a:hover {
-  color: #f09228;
-  text-decoration: none;
-}
-
 /* text configuration */
+name {
+  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+  font-size: 32px;
+}
+
+heading {
+  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+  font-size: 24px;
+}
+
+papertitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  font-weight: 700
+}
+
+p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px
+}
+
 body,
 td,
 th,
@@ -32,27 +34,40 @@ strong {
   font-size: 14px;
 }
 
-p {
+.custom-underline {
+  display: inline-block;
+  border-bottom: 1px solid black;
+  padding-bottom: 0px;
+  line-height: 16px;
+}
+
+.me {
   font-family: 'Raleway', sans-serif;
-  font-size: 15px
+  font-size: 13px;
+  color: #333333;
 }
 
-papertitle {
+.author {
   font-family: 'Raleway', sans-serif;
-  font-size: 15px;
-  font-weight: 700
+  font-size: 13px;
+  color: #333333;
 }
 
-name {
-  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
-  font-size: 32px;
+.author:hover {
+  color: #f09228;
 }
 
-heading {
-  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
-  font-size: 24px;
+/* href color */
+a {
+  color: #6c4210;
+  text-decoration: none;
 }
 
+a:focus,
+a:hover {
+  color: #f09228;
+  text-decoration: none;
+}
 
 span.highlight {
   background-color: #ffffd0;
