@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="KVzip">
+  <meta name="keywords" content="KV cache compression">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction
+  </title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">KVzip: Query-Agnostic KV Cache Compression with Context
+              Reconstruction
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://janghyun1230.github.io/">Jang-Hyun Kim</a>,</span>
+              <span class="author-block">
+                <a href="https://jusjinuk.me/">Jinuk Kim</a>,</span>
+              <span class="author-block">
+                <a href="https://openreview.net/profile?id=~Sangwoo_Kwon1">Sangwoo Kwon</a>,</span>
+              <span class="author-block">
+                <a href="https://iamjaelee.github.io/www/">Jae W. Lee</a>,</span>
+              <span class="author-block">
+                <a href="https://sangdooyun.github.io/">Sangdoo Yun</a>,</span>
+              <span class="author-block">
+                <a href="https://mllab.snu.ac.kr/hyunoh/">Hyun Oh Song</a></span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Seoul National University,</span>
+              <span class="author-block">NAVER AI Lab</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2505.23416" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/snu-mllab/KVzip"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>GitHub</span>
+                  </a>
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="./static/images/method.png">
+        <div class="subtitle has-text-centered">
+          <span class="dnerf">Our approach identifies importance of KV pairs through context reconstruction and evicts
+            low importance KV pairs.</span>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <img src="./static/images/demo.png">
+          <div class="subtitle has-text-centered">
+            <span class="dnerf">Run demo in our <a href="https://github.com/snu-mllab/KVzip"> GitHub
+                repository</a>!</span>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <img src="./static/images/benchmark.png">
+          <div class="subtitle has-text-centered">
+            <span class="dnerf">Key benchmark results on query-agnostic setting with Qwen2.5-7B-Instruct-1M.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">What is New?</h2>
+          KVzip compresses the KV cache to support <b>diverse future queries</b>. We support two use cases:
+          <li style="margin: 10px 0;">
+            Context-dependent eviction that achieves a <b>3–4× reduction in KV cache size</b> and a <b>2× decrease in
+              decoding latency</b>, with minimal performance loss. This approach introduces compression overhead
+            per context (2× prefilling cost), particularly advantageous for cache-retrieval systems.
+          </li>
+          <li style="margin: 10px 0;">
+            Context-independent eviction with a <b>one-time optimization overhead per model</b>, completed <b>within one
+              minute</b> (100× faster than DuoAttention). This method achieves approximately 2× compression.
+          </li>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3" , style="margin: 15px 0;">Problem</h2>
+          Our objective is to enhance the inference efficiency of Transformer-based LLMs. To begin, we present the
+          knowledge hierarchy in Transformers: some knowledge is encoded in weights, while models also process
+          contextual information represented as key-value (KV) pairs. Caching these KV pairs reduces redundant
+          processing, thus enhancing inference speed at the expense of increased storage.
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/hierarchy.png" style="width: 70%;">
+            <p><b>Figure 1</b>. Knowledge hierarchy in Transformer LLMs.</p>
+          </div>
+          This hierarchy is analogous to the human memory system, where we either search textual information externally
+          or recall it internally from memory.
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4526749/">Some studies</a> suggest memorization through
+          synaptic consolidation, similar to knowledge encoded by neural weights. However, the Transformer memory system
+          is inefficient: Transformers require tens of GBs of KV cache storage for merely 1 MB of text. Our work begins
+          by identifying redundancies in the Transformer memory system and leveraging these observations to achieve more
+          succinct knowledge representations.
+          <br>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3" , style="margin: 15px 0;">Previous Approaches</h2>
+          Our focus is on a training-free eviction algorithm for KV cache compression. <a
+            href="https://arxiv.org/abs/2306.14048">Most methods</a> assign importance
+          scores that determine the eviction order, typically using attention scores computed during prefilling or
+          decoding. These approaches are efficient because they rely only on by-product attention scores generated
+          during inference. However, reliance on currently available attention scores restricts compression capability,
+          as the scores are inherently biased toward currently processed input queries.
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/framework.png" style="width: 100%;">
+            <p><b>Figure 2</b>. KV eviction frameworks for multi-query settings.</p>
+          </div>
+          Previous approaches, including <a href="https://arxiv.org/abs/2404.14469">SnapKV</a>, typically use
+          query-aware eviction methods. Using such methods, we illustrate three strategies for multi-query scenarios in
+          the figure above: (a) repetitive prefilling and eviction achieve good accuracy but incur extensive prefilling
+          costs (Figure 3, green); (b) reusing the compressed KV cache in a query-aware manner significantly reduces
+          accuracy (Figure 3, blue); and (c) our work explores a query-agnostic approach, focusing solely on compressing
+          contextual information. KVzip achieves strong compression performance even when queries are unavailable during
+          the compression stage (Figure 3, red).
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/snap.png" style="width: 50%;">
+            <p><b>Figure 3</b>. Accuracy on the SQuAD multi-query dataset.</p>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Intuition</h2>
+          The primary research question is how to identify the importance of KV pairs for future queries. This is
+          particularly challenging due to the complexity and uncertainty of these queries. Our intuition begins with the
+          constraint that we must retain the entire contextual information to answer arbitrary queries.
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/intuition.png" style="width: 50%;">
+            <p><b>Figure 4</b>. Transformer LLM as a context encoder-decoder.</p>
+          </div>
+          We propose a prompting-based approach to evaluate information completeness during the compression process.
+          Specifically, we prompt LLMs with "Repeat the previous context," given the compressed KV cache. Perfect
+          context
+          reconstruction indicates lossless inference—extremely, we can
+          re-prefill the KV cache. Our experiments empirically confirm that this context
+          reconstruction process uncovers a sparse attention structure within the KV cache, which effectively
+          generalizes
+          to diverse downstream tasks.
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/method.png" style="width: 100%;">
+            <p><b>Figure 5</b>. KVzip procedure through an LLM forward pass.</p>
+          </div>
+          Fortunately, we can simulate the reconstruction process using teacher-forced decoding through LLM forward
+          passes. By constructing repeated inputs, we calculate the maximal attention scores received by KV pairs in the
+          cache and evict pairs with low scores. Our method supports arbitrary eviction structures and efficiently
+          scales to long-context scenarios by incorporating additional techniques.
+          <br>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3" , style="margin: 15px 0;">Observation</h2>
+          What makes KVzip effective? We observe that KVzip uncovers greater sparsity in KV pairs and derives attention
+          patterns that generalize effectively to downstream tasks. In Figure 6, we visualize the maximum attention
+          scores received by context KV pairs (KVc in Figure 5) across diverse inputs and compare them to the scores
+          obtained during prefilling.
+          <p style="margin: 10px 0;">
+            One interesting observation is that repeating (Figure 6-a) overlaps attention activation patterns of
+            downstream tasks (Figure 6-b,c). We empirically verify this across diverse tasks, including summarization,
+            reasoning, and even reversal of context. This result is practically valuable, indicating that context
+            reconstruction effectively predicts KV utilization and identifies redundant KV pairs.
+          </p>
+          <p style="margin: 10px 0;">
+            Why do these overlaps and sparsity exist? We find hints by comparing attention patterns observed during
+            prefilling. In Figure-d, we see denser attention patterns compared to context reconstruction. This indicates
+            that during prefilling, the model densely interacts with KV pairs to derive contextualized features, whereas
+            in the decoding phase, the model leverages these resulting high-level features. This explains why
+            KVzip outperforms previous eviction methods relying on attention patterns obtained during prefilling.
+          </p>
+          <div style="text-align: center;margin: 20px 0;">
+            <img src="./static/images/attention.png" style="width: 100%;">
+            <p><b>Figure 6</b>. Max attention scores received by KV pairs of the cached context of a SQuAD
+              example. We visualize LLaMA3.1-8B, 8-th layer. The context token length is 163 and the number of KV heads
+              is 8.</p>
+          </div>
+          <br>
+          <div style="text-align: center;margin: 10px 0;">
+            <img src="./static/images/inputs.png" style="width: 95%;">
+            <p><b>Table 1</b>. Inputs used for attention calculation in Figure 6 (SQuAD). We initially prefill the
+              context and then process these inputs to obtain attention scores of the prefilled KV pairs.</p>
+          </div>
+          <br>
+          These are key features of KVzip! Please check out <a href="https://arxiv.org/abs/2505.23416">our
+            paper</a> and <a href="https://github.com/snu-mllab/KVzip">GitHub codes</a> for more details.
+        </div>
+      </div>
+      <br>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>@article{kim2025kvzip,
+         title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
+         author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
+         journal={arXiv preprint arXiv:2505.23416},
+         year={2025}}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              Website adapted from the following <a href="https://github.com/nerfies/nerfies.github.io">source code</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
