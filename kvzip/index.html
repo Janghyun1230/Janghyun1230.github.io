@@ -196,12 +196,14 @@
           <h2 class="title is-3">Intuition</h2>
           The primary research question is how to identify the importance of KV pairs for future queries. This is
           particularly challenging due to the complexity and uncertainty of these queries. Our intuition begins with the
-          constraint that we must retain the entire contextual information to answer arbitrary queries.
+          constraint that LLM knowledge system (weight + KV cache) must retains the entire contextual information to
+          answer arbitrary queries.
           <div style="text-align: center;margin: 20px 0;">
             <img src="./static/images/intuition.png" style="width: 50%;">
             <p><b>Figure 4</b>. Transformer LLM as a context encoder-decoder.</p>
-          </div>
-          We propose a prompting-based approach to evaluate information completeness during the compression process.
+          </div> 
+          We propose a prompting-based approach to evaluate the information completeness of the compressed LLM knowledge
+          systems.
           Specifically, we prompt LLMs with "Repeat the previous context," given the compressed KV cache. Perfect
           context
           reconstruction indicates lossless inference—extremely, we can
@@ -228,10 +230,11 @@
           scores received by context KV pairs (KVc in Figure 5) across diverse inputs and compare them to the scores
           obtained during prefilling.
           <p style="margin: 10px 0;">
-            One interesting observation is that repeating (Figure 6-a) overlaps attention activation patterns of
-            downstream tasks (Figure 6-b,c). We empirically verify this across diverse tasks, including summarization,
+            One interesting observation is that repeating (Figure 6-a) overlaps attention patterns of
+            downstream tasks (Figure 6-b,c). We empirically observe this property across diverse tasks, including
+            summarization,
             reasoning, and even reversal of context. This result is practically valuable, indicating that context
-            reconstruction effectively predicts KV utilization and identifies redundant KV pairs.
+            reconstruction effectively predicts KV utilization and identifies redundant KV pairs for downstream tasks.
           </p>
           <p style="margin: 10px 0;">
             Why do these overlaps and sparsity exist? We find hints by comparing attention patterns observed during
