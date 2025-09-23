@@ -1,6 +1,6 @@
-@article{kim2024targeted,
-    title={Large-Scale Targeted Cause Discovery with Data-Driven Learning},
+@article{kim2025targeted,
+    title={Large-Scale Targeted Cause Discovery via Learning from Simulated Data},
     author={Kim, Jang-Hyun and Gibbs, Claudia Skok and Yun, Sangdoo and Song, Hyun Oh and Cho, Kyunghyun},
-    journal={arXiv preprint arXiv:2408.16218},
-    year={2024}
+    journal={TMLR},
+    year={2025}
 }
