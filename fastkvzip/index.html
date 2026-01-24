@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="KVzip">
+  <meta name="keywords" content="KV cache compression">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction
+  </title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Fast KVzip: Efficient and Accurate LLM Inference with Gated KV
+              Eviction
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://janghyun1230.github.io/">Jang-Hyun Kim</a>,</span>
+              <span class="author-block">
+                <a href="https://sites.google.com/site/dyhan0920/">Dongyoon Han</a>,</span>
+              <span class="author-block">
+                <a href="https://sangdooyun.github.io/">Sangdoo Yun</a>,</span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">NAVER AI Lab</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2505.23416" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/snu-mllab/KVzip"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>GitHub</span>
+                  </a>
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="./static/images/method.png">
+        <div class="subtitle has-text-centered">
+          <span class="dnerf">Computational flow of Fast KVzip.</span>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Inference Efficiency</h2>
+          <img src="./static/images/efficiency.png" style="width: 80%;"">
+          <div class="subtitle has-text-centered">
+            <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30\% KV budget ratio
+              with PyTorch and FlashAttention-2 on a single H100 GPU. Points in the plot correspond to context lengths
+              of 160K, 240K, and 320K.</span>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">KV Cache Compression Performance</h2>
+          <img src="./static/images/prefill.png">
+          <div class="subtitle has-text-centered">
+            <span class="dnerf">Prefill-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
+          </div>
+          <img src="./static/images/decode.png">
+          <div class="subtitle has-text-centered">
+            <span class="dnerf">Decoding-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>@article{kim2026fastkvzip,
+         title={Fast KVzip: Efficient and Accurate LLM Inference with Gated KV Eviction},
+         author={Kim, Jang-Hyun and Han, Dongyoon and Yun, Sangdoo},
+         journal={arXiv preprint},
+         year={2026}}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              Website adapted from the following <a href="https://github.com/nerfies/nerfies.github.io">source code</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
