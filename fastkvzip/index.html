@@ -64,7 +64,7 @@
             <div class="column has-text-centered">
               <div class="publication-links">
                 <span class="link-block">
-                  <a href="https://arxiv.org/abs/2505.23416" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://arxiv.org/abs/" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="ai ai-arxiv"></i>
                     </span>
@@ -73,12 +73,12 @@
                 </span>
                 <!-- Code Link. -->
                 <span class="link-block">
-                  <a href="https://github.com/snu-mllab/KVzip"
+                  <a href="https://github.com/Janghyun1230/FastKVzip"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>GitHub</span>
+                    <span>Coming Soon</span>
                   </a>
                 </span>
               </div>
@@ -102,27 +102,27 @@
         <div class="column is-four-fifths">
           <h2 class="title is-3">Inference Efficiency</h2>
           <img src="./static/images/efficiency.png" style="width: 80%;"">
-          <div class="subtitle has-text-centered">
-            <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30\% KV budget ratio
-              with PyTorch and FlashAttention-2 on a single H100 GPU. Points in the plot correspond to context lengths
-              of 160K, 240K, and 320K.</span>
-          </div>
+          <div class=" subtitle has-text-centered">
+          <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30\% KV budget ratio
+            with PyTorch and FlashAttention-2 on a single H100 GPU. Points in the plot correspond to context lengths
+            of 160K, 240K, and 320K.</span>
         </div>
       </div>
-      <br>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">KV Cache Compression Performance</h2>
-          <img src="./static/images/prefill.png">
-          <div class="subtitle has-text-centered">
-            <span class="dnerf">Prefill-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
-          </div>
-          <img src="./static/images/decode.png">
-          <div class="subtitle has-text-centered">
-            <span class="dnerf">Decoding-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
-          </div>
+    </div>
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">KV Cache Compression Performance</h2>
+        <img src="./static/images/prefill.png">
+        <div class="subtitle has-text-centered">
+          <span class="dnerf">Prefill-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
+        </div>
+        <img src="./static/images/decode.png">
+        <div class="subtitle has-text-centered">
+          <span class="dnerf">Decoding-intensive benchmark results with Qwen2.5-7B-Instruct-1M.</span>
         </div>
       </div>
+    </div>
     </div>
   </section>
 
