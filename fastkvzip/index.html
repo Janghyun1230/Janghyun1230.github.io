@@ -98,12 +98,30 @@
           <span class="dnerf">Computational flow of Fast KVzip.</span>
         </div>
       </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">What is New?</h2>
+          <li style="margin: 10px 0;">
+            <b>Fast KVzip</b> trains a <b>lightweight gating mechanism</b> for KV cache compression across both prefill
+            and decoding stages.
+          </li>
+          <li style="margin: 10px 0;">
+            Our method achieves near-lossless performance on general tasks with up to a <b>70% KV cache eviction
+              ratio</b> while significantly improving attention efficiency.
+          </li>
+          <li style="margin: 10px 0;">
+            We propose a <b>Row-Rank Sink Attention</b> architecture for gates and directly distill KVzip’s importance
+            scores to train them in under one H100 hour.
+          </li>
+        </div>
+      </div>
+
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">Inference Efficiency</h2>
           <img src="./static/images/efficiency.png" style="width: 80%;"">
           <div class=" subtitle has-text-centered">
-          <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30\% KV budget ratio
+          <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30% KV budget ratio
             with PyTorch and FlashAttention-2 on a single H100 GPU. Points in the plot correspond to context lengths
             of 160K, 240K, and 320K.</span>
         </div>
