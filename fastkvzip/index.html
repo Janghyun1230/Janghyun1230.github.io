@@ -119,11 +119,11 @@
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">Inference Efficiency</h2>
-          <img src="./static/images/efficiency.png" style="width: 80%;"">
+          <img src="./static/images/efficiency.png" style="width: 80%;">
           <div class=" subtitle has-text-centered">
-          <span class="dnerf">Prefill and decoding efficiency of the Qwen2.5-7B-1M model using a 30% KV budget ratio
-            with PyTorch and FlashAttention-2 on a single H100 GPU. Points in the plot correspond to context lengths
-            of 160K, 240K, and 320K.</span>
+          <span class="dnerf">Prefill and decoding efficiency of Qwen2.5-7B-1M using a 30% KV budget ratio
+            with PyTorch and FlashAttention-2 on a H100 GPU. Points in the plot correspond to context lengths
+            of 160K, 240K, and 320K. KVzip provides a decoding speed similar to Fast KVzip.</span>
         </div>
       </div>
     </div>
@@ -450,9 +450,9 @@
             loadData();
           </script>
         </div>
-        <div class="subtitle has-text-centered">
-          <span class="dnerf">We visualize Qwen2.5-7B-Instruct-1M having 28 layers and 4 KV heads.</span>
-        </div>
+      </div>
+      <div class="subtitle has-text-centered">
+        <span class="dnerf">We visualize Qwen2.5-7B-Instruct-1M having 28 layers and 4 KV heads.</span>
       </div>
     </div>
   </section>
