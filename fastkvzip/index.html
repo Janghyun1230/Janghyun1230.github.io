@@ -148,6 +148,319 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
+          <h2 class="title has-text-centered">KV Importance Score Visualization</h2>
+          <style>
+            * {
+              box-sizing: border-box;
+            }
+
+            .kv-viz-container {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+              background: #f5f5f5;
+              padding: 20px;
+              border-radius: 8px;
+            }
+
+            .kv-viz-title {
+              text-align: center;
+              color: #333;
+              margin-bottom: 20px;
+            }
+
+            .kv-controls {
+              background: white;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              margin-bottom: 20px;
+              display: flex;
+              gap: 40px;
+              justify-content: center;
+              align-items: center;
+              flex-wrap: wrap;
+            }
+
+            .kv-slider-group {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            }
+
+            .kv-slider-group label {
+              font-weight: bold;
+              min-width: 60px;
+            }
+
+            .kv-slider-group input[type="range"] {
+              width: 200px;
+            }
+
+            .kv-slider-value {
+              min-width: 30px;
+              text-align: center;
+              font-weight: bold;
+              color: #666;
+            }
+
+            .kv-container {
+              display: flex;
+              gap: 20px;
+            }
+
+            .kv-panel {
+              flex: 1;
+              background: white;
+              border-radius: 8px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              padding: 15px;
+              max-height: 70vh;
+              overflow-y: auto;
+            }
+
+            .kv-panel h3 {
+              margin: 0 0 15px 0;
+              padding-bottom: 10px;
+              border-bottom: 2px solid;
+            }
+
+            .kv-panel.pred h3 {
+              color: #0000FF;
+              border-color: #0000FF;
+            }
+
+            .kv-panel.label h3 {
+              color: #FF0000;
+              border-color: #FF0000;
+            }
+
+            .kv-panel.label {
+              font-weight: normal;
+            }
+
+            .kv-tokens {
+              line-height: 1.8;
+              font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+              font-size: 14px;
+              word-wrap: break-word;
+            }
+
+            .kv-token {
+              padding: 2px 1px;
+              border-radius: 3px;
+              cursor: pointer;
+              transition: transform 0.1s;
+            }
+
+            .kv-token:hover {
+              transform: scale(1.1);
+              outline: 1px solid #333;
+            }
+
+            .kv-tooltip {
+              position: fixed;
+              background: rgba(0, 0, 0, 0.8);
+              color: white;
+              padding: 5px 10px;
+              border-radius: 4px;
+              font-size: 12px;
+              pointer-events: none;
+              z-index: 1000;
+              display: none;
+            }
+
+            .kv-loading {
+              text-align: center;
+              padding: 50px;
+              font-size: 18px;
+              color: #666;
+            }
+
+            .kv-stats {
+              font-size: 12px;
+              color: #666;
+              margin-bottom: 10px;
+              font-weight: normal;
+            }
+
+            @media (max-width: 768px) {
+              .kv-container {
+                flex-direction: column;
+              }
+
+              .kv-controls {
+                gap: 20px;
+              }
+            }
+          </style>
+
+          <div class="kv-viz-container">
+
+            <div class="kv-controls">
+              <div class="kv-slider-group">
+                <label>Layer:</label>
+                <input type="range" id="layerSlider" min="0" max="27" value="0">
+                <span class="kv-slider-value" id="layerValue">0</span>
+              </div>
+              <div class="kv-slider-group">
+                <label>Head:</label>
+                <input type="range" id="headSlider" min="0" max="3" value="0">
+                <span class="kv-slider-value" id="headValue">0</span>
+              </div>
+            </div>
+
+            <div class="kv-container">
+              <div class="kv-panel pred">
+                <h3>Fast KVzip</h3>
+                <div class="kv-stats" id="predStats"></div>
+                <div class="kv-tokens" id="predTokens"></div>
+              </div>
+              <div class="kv-panel label">
+                <h3>KVzip</h3>
+                <div class="kv-stats" id="labelStats"></div>
+                <div class="kv-tokens" id="labelTokens"></div>
+              </div>
+            </div>
+
+            <div class="kv-tooltip" id="tooltip"></div>
+
+            <div class="kv-loading" id="loading">Loading data...</div>
+          </div>
+
+          <script>
+            let data = null;
+
+            // Load JSON data
+            async function loadData() {
+              try {
+                const response = await fetch('visualization_data.json');
+                data = await response.json();
+
+                // Update slider max values
+                document.getElementById('layerSlider').max = data.layers - 1;
+                document.getElementById('headSlider').max = data.heads - 1;
+
+                document.getElementById('loading').style.display = 'none';
+                updateVisualization();
+              } catch (error) {
+                document.getElementById('loading').innerHTML =
+                  'Error loading data. Please run <code>python export_data.py</code> first.';
+                console.error('Error loading data:', error);
+              }
+            }
+
+            // Escape HTML
+            function escapeHtml(text) {
+              const div = document.createElement('div');
+              div.textContent = text;
+              return div.innerHTML;
+            }
+
+            // Generate colored tokens HTML
+            function generateTokensHtml(tokens, scores, colorRgb) {
+              let html = '';
+              for (let i = 0; i < tokens.length; i++) {
+                const token = tokens[i];
+                const score = scores[i];
+
+                if (token.includes('\n')) {
+                  html += '<br><br>';
+                  continue;
+                }
+
+                const alpha = Math.max(0, Math.min(1, score));
+                const escaped = escapeHtml(token);
+                html += `<span class="kv-token"
+                  style="background-color: rgba(${colorRgb}, ${alpha.toFixed(2)})"
+                  data-score="${score.toFixed(4)}"
+                  data-token="${escaped}"
+                  data-index="${i}">${escaped}</span>`;
+              }
+              return html;
+            }
+
+            // Calculate stats
+            function calcStats(scores) {
+              const validScores = scores.filter(s => !isNaN(s));
+              const mean = validScores.reduce((a, b) => a + b, 0) / validScores.length;
+              const max = Math.max(...validScores);
+              const min = Math.min(...validScores);
+              return { mean, max, min };
+            }
+
+            // Update visualization
+            function updateVisualization() {
+              if (!data) return;
+
+              const layerIdx = parseInt(document.getElementById('layerSlider').value);
+              const headIdx = parseInt(document.getElementById('headSlider').value);
+
+              document.getElementById('layerValue').textContent = layerIdx;
+              document.getElementById('headValue').textContent = headIdx;
+
+              const labelScores = data.label[layerIdx][headIdx];
+              const predScores = data.pred[layerIdx][headIdx];
+
+              // Generate HTML
+              document.getElementById('predTokens').innerHTML =
+                generateTokensHtml(data.text, predScores, '0, 0, 255');
+              document.getElementById('labelTokens').innerHTML =
+                generateTokensHtml(data.text, labelScores, '255, 0, 0');
+
+              // Update stats
+              const labelStats = calcStats(labelScores);
+              const predStats = calcStats(predScores);
+
+              document.getElementById('labelStats').innerHTML =
+                `Mean: ${labelStats.mean.toFixed(4)} | Min: ${labelStats.min.toFixed(4)} | Max: ${labelStats.max.toFixed(4)}`;
+              document.getElementById('predStats').innerHTML =
+                `Mean: ${predStats.mean.toFixed(4)} | Min: ${predStats.min.toFixed(4)} | Max: ${predStats.max.toFixed(4)}`;
+            }
+
+            // Tooltip handling
+            const tooltip = document.getElementById('tooltip');
+
+            document.addEventListener('mouseover', (e) => {
+              if (e.target.classList.contains('kv-token')) {
+                const score = e.target.dataset.score;
+                const token = e.target.dataset.token;
+                const index = e.target.dataset.index;
+                tooltip.innerHTML = `Token: "${token}"<br>Index: ${index}<br>Score: ${score}`;
+                tooltip.style.display = 'block';
+              }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+              if (tooltip.style.display === 'block') {
+                tooltip.style.left = (e.clientX + 10) + 'px';
+                tooltip.style.top = (e.clientY + 10) + 'px';
+              }
+            });
+
+            document.addEventListener('mouseout', (e) => {
+              if (e.target.classList.contains('kv-token')) {
+                tooltip.style.display = 'none';
+              }
+            });
+
+            // Slider event listeners
+            document.getElementById('layerSlider').addEventListener('input', updateVisualization);
+            document.getElementById('headSlider').addEventListener('input', updateVisualization);
+
+            // Load data on page load
+            loadData();
+          </script>
+        </div>
+        <div class="subtitle has-text-centered">
+          <span class="dnerf">We visualize Qwen2.5-7B-Instruct-1M having 28 layers and 4 KV heads.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
           <h2 class="title">BibTeX</h2>
           <pre><code>@article{kim2026fastkvzip,
          title={Fast KVzip: Efficient and Accurate LLM Inference with Gated KV Eviction},
@@ -157,7 +470,6 @@
         </div>
       </div>
     </div>
-
   </section>
 
   <footer class="footer">

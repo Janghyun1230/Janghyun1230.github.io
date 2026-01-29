@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layer-wise KV Importance Heatmap</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .slider-group label {
+            font-weight: bold;
+            min-width: 100px;
+        }
+        .slider-group input[type="range"] {
+            width: 200px;
+        }
+        .slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #666;
+        }
+        .heatmap-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .heatmap-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .heatmap-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+        }
+        .y-labels {
+            display: flex;
+            flex-direction: column;
+            font-size: 10px;
+            color: #666;
+            padding-top: 80px;
+        }
+        .y-label {
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 5px;
+            min-width: 25px;
+        }
+        .heatmap-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .x-labels {
+            display: flex;
+            font-size: 11px;
+            color: #666;
+            height: 80px;
+            align-items: flex-start;
+        }
+        .x-label {
+            width: 16px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-top: 5px;
+        }
+        .heatmap-grid {
+            display: flex;
+            flex-direction: column;
+        }
+        .heatmap-row {
+            display: flex;
+        }
+        .heatmap-cell {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .heatmap-cell:hover {
+            transform: scale(1.3);
+            z-index: 10;
+            position: relative;
+            outline: 1px solid #333;
+        }
+        .colorbar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+            font-size: 10px;
+            color: #666;
+        }
+        .colorbar-gradient {
+            width: 20px;
+            height: 200px;
+            background: linear-gradient(to bottom, rgb(255, 0, 0), rgb(255, 255, 255));
+            border: 1px solid #ccc;
+        }
+        .colorbar-labels {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 200px;
+            margin-left: 5px;
+        }
+        .tooltip {
+            position: fixed;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+        .axis-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+        .y-axis-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Layer-wise KV Importance Score Heatmap</h1>
+
+    <div class="controls">
+        <div class="slider-group">
+            <label>Start Position:</label>
+            <input type="range" id="startSlider" min="0" max="1000" value="0" step="10">
+            <span class="slider-value" id="startValue">0</span>
+        </div>
+        <div class="slider-group">
+            <label>Window Size:</label>
+            <input type="range" id="windowSlider" min="20" max="100" value="50" step="10">
+            <span class="slider-value" id="windowValue">50</span>
+        </div>
+    </div>
+
+    <div class="heatmap-container">
+        <div class="heatmap-title">Fast KVzip - Head Averaged Score (vmin=0, vmax=0.3)</div>
+        <div class="heatmap-wrapper">
+            <div class="y-axis-label axis-label">Layer Index</div>
+            <div class="y-labels" id="yLabels"></div>
+            <div class="heatmap-content">
+                <div class="x-labels" id="xLabels"></div>
+                <div class="heatmap-grid" id="heatmapGrid"></div>
+                <div class="axis-label" style="text-align: center; margin-top: 10px;">Token</div>
+            </div>
+            <div class="colorbar">
+                <div style="margin-bottom: 5px;">Score</div>
+                <div style="display: flex;">
+                    <div class="colorbar-gradient"></div>
+                    <div class="colorbar-labels">
+                        <span>0.3</span>
+                        <span>0.15</span>
+                        <span>0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div class="loading" id="loading">Loading data...</div>
+
+    <script>
+        let data = null;
+
+        // Load JSON data
+        async function loadData() {
+            try {
+                const response = await fetch('visualization_data.json');
+                data = await response.json();
+
+                // Update slider max
+                document.getElementById('startSlider').max = data.seq_len - 50;
+
+                document.getElementById('loading').style.display = 'none';
+                updateVisualization();
+            } catch (error) {
+                document.getElementById('loading').innerHTML =
+                    'Error loading data. Please run <code>python export_data.py</code> first.';
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Score to color (Red scale, 0-0.3 mapped to white-red)
+        function scoreToColor(score, vmin = 0, vmax = 0.3) {
+            const normalized = Math.max(0, Math.min(1, (score - vmin) / (vmax - vmin)));
+            const r = 255;
+            const g = Math.round(255 * (1 - normalized));
+            const b = Math.round(255 * (1 - normalized));
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Update visualization
+        function updateVisualization() {
+            if (!data) return;
+
+            const startPos = parseInt(document.getElementById('startSlider').value);
+            const windowSize = parseInt(document.getElementById('windowSlider').value);
+            const endPos = Math.min(startPos + windowSize, data.seq_len);
+
+            document.getElementById('startValue').textContent = startPos;
+            document.getElementById('windowValue').textContent = windowSize;
+
+            // Calculate head-averaged scores: (layers, seq)
+            const layers = data.layers;
+            const avgScores = [];
+            for (let l = 0; l < layers; l++) {
+                const layerAvg = [];
+                for (let s = startPos; s < endPos; s++) {
+                    let sum = 0;
+                    for (let h = 0; h < data.heads; h++) {
+                        sum += data.pred[l][h][s];
+                    }
+                    layerAvg.push(sum / data.heads);
+                }
+                avgScores.push(layerAvg);
+            }
+
+            // Generate Y labels (layer indices, inverted)
+            const yLabelsHtml = [];
+            for (let l = layers - 1; l >= 0; l--) {
+                yLabelsHtml.push(`<div class="y-label">${l}</div>`);
+            }
+            document.getElementById('yLabels').innerHTML = yLabelsHtml.join('');
+
+            // Generate X labels (tokens)
+            const xLabelsHtml = [];
+            for (let s = startPos; s < endPos; s++) {
+                let token = data.text[s] || '';
+                token = token.replace(/\n/g, '\\n').substring(0, 8);
+                xLabelsHtml.push(`<div class="x-label" title="${escapeHtml(data.text[s])}">${escapeHtml(token)}</div>`);
+            }
+            document.getElementById('xLabels').innerHTML = xLabelsHtml.join('');
+
+            // Generate heatmap grid (inverted y-axis)
+            let gridHtml = '';
+            for (let l = layers - 1; l >= 0; l--) {
+                gridHtml += '<div class="heatmap-row">';
+                for (let s = 0; s < avgScores[l].length; s++) {
+                    const score = avgScores[l][s];
+                    const color = scoreToColor(score);
+                    const token = data.text[startPos + s] || '';
+                    gridHtml += `<div class="heatmap-cell"
+                        style="background-color: ${color}"
+                        data-layer="${l}"
+                        data-pos="${startPos + s}"
+                        data-score="${score.toFixed(4)}"
+                        data-token="${escapeHtml(token)}"></div>`;
+                }
+                gridHtml += '</div>';
+            }
+            document.getElementById('heatmapGrid').innerHTML = gridHtml;
+        }
+
+        // Tooltip handling
+        const tooltip = document.getElementById('tooltip');
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('heatmap-cell')) {
+                const layer = e.target.dataset.layer;
+                const pos = e.target.dataset.pos;
+                const score = e.target.dataset.score;
+                const token = e.target.dataset.token;
+                tooltip.innerHTML = `Layer: ${layer}<br>Position: ${pos}<br>Token: "${token}"<br>Score: ${score}`;
+                tooltip.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (tooltip.style.display === 'block') {
+                tooltip.style.left = (e.clientX + 15) + 'px';
+                tooltip.style.top = (e.clientY + 15) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.classList.contains('heatmap-cell')) {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        // Slider event listeners
+        document.getElementById('startSlider').addEventListener('input', updateVisualization);
+        document.getElementById('windowSlider').addEventListener('input', updateVisualization);
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>
