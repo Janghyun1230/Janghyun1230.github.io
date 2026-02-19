@@ -1,6 +1,5 @@
-@article{kim2025kvzip,
-        title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
-        author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
-        journal={Advances in Neural Information Processing Systems},
-        year={2025}
+@inproceedings{kim2025kvzip,
+  title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
+  author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems}
 }
