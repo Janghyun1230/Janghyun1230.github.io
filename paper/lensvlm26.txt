@@ -1,0 +1,5 @@
+@inproceedings{xie2026lensvlm,
+  title={LensVLM: Selective Context Expansion for Compressed Visual Representation of Text},
+  author={Xie, Roy and Friedman, Dan and Yu, Donghan and Pan, Bowen and Fifty, Christopher and Kim, Jang-Hyun and Du, Xianzhi and Gan, Zhe and Rathod, Vivek and Dhingra, Bhuwan},
+  booktitle={The Fortieth Annual Conference on Neural Information Processing Systems}
+}

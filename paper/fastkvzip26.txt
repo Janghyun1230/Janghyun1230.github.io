@@ -1,6 +1,5 @@
-@article{kim2026fast,
+@inproceedings{kim2026fast,
   title={Fast KVzip: Efficient and Accurate LLM Inference with Gated KV Eviction},
   author={Kim, Jang-Hyun and Han, Dongyoon and Yun, Sangdoo},
-  journal={arXiv preprint arXiv:2601.17668},
-  year={2026}
+  booktitle={The Fortieth Annual Conference on Neural Information Processing Systems}
 }
